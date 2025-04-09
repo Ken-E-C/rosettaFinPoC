@@ -42,6 +42,9 @@ struct SearchView: View {
                     SongListItem(name: song.name, artist: song.artist)
                 }
             }
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .shadow(radius: 5)
             .padding()
         }
     }

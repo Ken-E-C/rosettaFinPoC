@@ -21,5 +21,6 @@ struct SongListItem: View {
             }
             Spacer()
         }
+        .padding()
     }
 }

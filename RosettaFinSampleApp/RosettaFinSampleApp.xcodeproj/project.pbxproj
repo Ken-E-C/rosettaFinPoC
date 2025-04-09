@@ -28,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		88E653C42DA680CE00646081 /* MediaServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MediaServices; path = /Users/kennycabral/Nextcloud/Developer/RosettaFin/MediaServices; sourceTree = "<absolute>"; };
 		EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RosettaFinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD6B2DA485CE00859F2F /* RosettaFinSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD752DA485CE00859F2F /* RosettaFinSampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +81,7 @@
 		EF2CDD542DA485CD00859F2F = {
 			isa = PBXGroup;
 			children = (
+				88E653C42DA680CE00646081 /* MediaServices */,
 				EF2CDD5F2DA485CD00859F2F /* RosettaFinSampleApp */,
 				EF2CDD6E2DA485CE00859F2F /* RosettaFinSampleAppTests */,
 				EF2CDD782DA485CE00859F2F /* RosettaFinSampleAppUITests */,
