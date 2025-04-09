@@ -1,5 +1,5 @@
 //
-//  QueueViewModel.swift
+//  SearchViewModel.swift
 //  RosettaFinSampleApp
 //
 //  Created by Kenny Cabral on 4/8/25.
@@ -7,7 +7,7 @@
 
 import Combine
 
-class QueueViewModel: ObservableObject {
+class SearchViewModel: ObservableObject {
     @Published var enqueuedSongs = [SongInfo]()
     
     init() {

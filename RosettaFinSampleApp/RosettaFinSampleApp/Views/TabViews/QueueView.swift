@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct QueueView: View {
-    typealias SongInfo = QueueViewModel.SongInfo
-    
     @StateObject var viewModel: QueueViewModel
     @State var enqueuedSongs = [SongInfo]()
     

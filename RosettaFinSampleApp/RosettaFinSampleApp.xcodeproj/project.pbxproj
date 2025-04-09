@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EF1148FE2DA612940026878B /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = EF1148FD2DA612940026878B /* JellyfinAPI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		EF2CDD6C2DA485CE00859F2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF1148FE2DA612940026878B /* JellyfinAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = RosettaFinSampleApp;
 			packageProductDependencies = (
+				EF1148FD2DA612940026878B /* JellyfinAPI */,
 			);
 			productName = RosettaFinSampleApp;
 			productReference = EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = EF2CDD542DA485CD00859F2F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EF2CDD5E2DA485CD00859F2F /* Products */;
 			projectDirPath = "";
@@ -593,6 +602,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EF1148FD2DA612940026878B /* JellyfinAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
+			productName = JellyfinAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EF2CDD552DA485CD00859F2F /* Project object */;
 }
