@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF1148FE2DA612940026878B /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = EF1148FD2DA612940026878B /* JellyfinAPI */; };
+		885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */ = {isa = PBXBuildFile; productRef = 885A87AB2DA7FC0400717DB5 /* MediaServices */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF1148FE2DA612940026878B /* JellyfinAPI in Frameworks */,
+				885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +78,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		885A87AA2DA7FBFF00717DB5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EF2CDD542DA485CD00859F2F = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +92,7 @@
 				EF2CDD5F2DA485CD00859F2F /* RosettaFinSampleApp */,
 				EF2CDD6E2DA485CE00859F2F /* RosettaFinSampleAppTests */,
 				EF2CDD782DA485CE00859F2F /* RosettaFinSampleAppUITests */,
+				885A87AA2DA7FBFF00717DB5 /* Frameworks */,
 				EF2CDD5E2DA485CD00859F2F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -119,7 +127,7 @@
 			);
 			name = RosettaFinSampleApp;
 			packageProductDependencies = (
-				EF1148FD2DA612940026878B /* JellyfinAPI */,
+				885A87AB2DA7FC0400717DB5 /* MediaServices */,
 			);
 			productName = RosettaFinSampleApp;
 			productReference = EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */;
@@ -204,7 +212,6 @@
 			mainGroup = EF2CDD542DA485CD00859F2F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EF2CDD5E2DA485CD00859F2F /* Products */;
@@ -605,22 +612,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		EF1148FD2DA612940026878B /* JellyfinAPI */ = {
+		885A87AB2DA7FC0400717DB5 /* MediaServices */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EF1148FC2DA612940026878B /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
-			productName = JellyfinAPI;
+			productName = MediaServices;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

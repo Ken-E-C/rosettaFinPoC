@@ -17,7 +17,8 @@ struct JellyfinSetupView: View {
     
     @State var didLoginSucceed = false
     
-    init(viewModel: JellyfinSetupViewModel = JellyfinSetupViewModel()) {
+    init(givenViewModel: JellyfinSetupViewModel? = nil) {
+        let viewModel = givenViewModel ??  JellyfinSetupViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     var body: some View {

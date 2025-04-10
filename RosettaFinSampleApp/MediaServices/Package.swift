@@ -5,20 +5,34 @@ import PackageDescription
 
 let package = Package(
     name: "MediaServices",
+    platforms: [.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "MediaServices",
             targets: ["MediaServices"]),
     ],
+    dependencies: [
+        .package(
+            url: "https://github.com/jellyfin/jellyfin-sdk-swift.git",
+            from: "0.5.1")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "MediaServices"),
+            name: "MediaServices",
+            dependencies: [
+                .product(
+                    name: "JellyfinAPI",
+                    package: "jellyfin-sdk-swift"
+                )
+            ]
+        ),
+        
         .testTarget(
             name: "MediaServicesTests",
             dependencies: ["MediaServices"]
-        ),
+        )
     ]
 )
