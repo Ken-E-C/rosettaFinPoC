@@ -15,7 +15,7 @@ struct JellyfinSetupView: View {
     @State var username = ""
     @State var password = ""
     
-    @State var didLoginSucceed = false
+    @State var loginStatus = ""
     
     init(givenViewModel: JellyfinSetupViewModel? = nil) {
         let viewModel = givenViewModel ??  JellyfinSetupViewModel()
@@ -36,7 +36,16 @@ struct JellyfinSetupView: View {
             Spacer()
         }
         .onReceive(viewModel.$isLoggedIn, perform: { newValue in
-            didLoginSucceed = newValue
+            switch newValue {
+            case .authInProgress:
+                loginStatus = "In Progress"
+            case .loggedIn:
+                loginStatus = "Logged In"
+            case .loggedOut:
+                loginStatus = "Logged Out"
+            case .undefined:
+                loginStatus = "Unknown"
+            }
         })
         .padding(.top, 24.0)
         .padding(.horizontal)
@@ -51,7 +60,7 @@ struct JellyfinSetupView: View {
                     with: password)
             }
             Spacer()
-            Text("Did Login Succeed: \(didLoginSucceed)")
+            Text("Login Status: \(loginStatus)")
         }
     }
 }

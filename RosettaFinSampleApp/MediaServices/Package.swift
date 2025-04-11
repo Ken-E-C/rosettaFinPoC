@@ -27,7 +27,8 @@ let package = Package(
                     name: "JellyfinAPI",
                     package: "jellyfin-sdk-swift"
                 )
-            ]
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
         ),
         
         .testTarget(

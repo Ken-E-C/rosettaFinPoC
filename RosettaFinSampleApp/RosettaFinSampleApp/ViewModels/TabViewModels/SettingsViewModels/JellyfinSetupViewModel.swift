@@ -11,7 +11,15 @@ import MediaServices
 
 @MainActor
 class JellyfinSetupViewModel: ObservableObject {
-    @Published var isLoggedIn = false
+    
+    enum LoginState {
+        case undefined
+        case authInProgress
+        case loggedIn
+        case loggedOut
+    }
+    
+    @Published var isLoggedIn: LoginState = .authInProgress
     @Published var accessToken: String? = nil
     
     let loginManager: JellyfinLoginManager
@@ -23,9 +31,20 @@ class JellyfinSetupViewModel: ObservableObject {
         setupLoginListener(using: loginManager.$isLoggedIn)
     }
     
-    private func setupLoginListener(using listenerPublisher: Published<Bool>.Publisher) {
+    private func setupLoginListener(using listenerPublisher: Published<Bool?>.Publisher) {
         listenerPublisher.receive(on: DispatchQueue.main).sink { newLoginValue in
-            self.isLoggedIn = newLoginValue
+            switch newLoginValue {
+            case nil:
+                self.isLoggedIn = .authInProgress
+            case true:
+                self.isLoggedIn = .loggedIn
+            case false:
+                self.isLoggedIn = .loggedOut
+            default:
+                // Should Never reach this state
+                print("JellyfinSetupViewModel: Error: undefined login state detected")
+                self.isLoggedIn = .undefined
+            }
         }.store(in: &cancellables)
     }
     
@@ -35,7 +54,11 @@ class JellyfinSetupViewModel: ObservableObject {
         with password: String,
         // storageManager: MassStorageManager
     ) {
-        if !loginManager.isLoggedIn {
+        guard let isLoggedIn = loginManager.isLoggedIn else {
+            print("JellyfinSetupViewModel: Warning: Login in Progress")
+            return
+        }
+        if !isLoggedIn {
             loginManager.attemptLogin(
                 serverUrl: serverUrl,
                 userName: userName,
