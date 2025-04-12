@@ -22,13 +22,13 @@ class JellyfinSetupViewModel: ObservableObject {
     @Published var isLoggedIn: LoginState = .authInProgress
     @Published var accessToken: String? = nil
     
-    let loginManager: JellyfinLoginManager
+    let serviceManager: JellyfinServiceManager
     
     var cancellables = Set<AnyCancellable>()
     
-    init(givenLoginManager: JellyfinLoginManager? = nil) {
-        self.loginManager = givenLoginManager ?? MediaServices.shared.jellyfinLoginManager
-        setupLoginListener(using: loginManager.$isLoggedIn)
+    init(givenServiceManager: JellyfinServiceManager? = nil) {
+        self.serviceManager = givenServiceManager ?? MediaServices.shared.jellyfinManager
+        setupLoginListener(using: serviceManager.$isLoggedIn)
     }
     
     private func setupLoginListener(using listenerPublisher: Published<Bool?>.Publisher) {
@@ -54,13 +54,13 @@ class JellyfinSetupViewModel: ObservableObject {
         with password: String,
         // storageManager: MassStorageManager
     ) {
-        guard let isLoggedIn = loginManager.isLoggedIn else {
+        guard let isLoggedIn = serviceManager.isLoggedIn else {
             print("JellyfinSetupViewModel: Warning: Login in Progress")
             return
         }
         if !isLoggedIn {
-            loginManager.attemptLogin(
-                serverUrl: serverUrl,
+            serviceManager.attemptLogin(
+                serverUrlString: serverUrl,
                 userName: userName,
                 password: password)
         }

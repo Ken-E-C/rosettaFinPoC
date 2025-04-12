@@ -30,9 +30,9 @@
             filePath = "MediaServices/Sources/MediaServices/Managers/JellyfinLoginManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "attemptLogin(serverUrl:userName:password:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "attemptLogin(serverUrlString:userName:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

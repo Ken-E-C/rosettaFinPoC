@@ -8,4 +8,9 @@
 public struct JellyfinDataBlob {
     public let serverUrl: String
     public var credentials: [JellyfinCredentials]
+    
+    public init(serverUrl: String, credentials: [JellyfinCredentials]) {
+        self.serverUrl = serverUrl
+        self.credentials = credentials
+    }
 }

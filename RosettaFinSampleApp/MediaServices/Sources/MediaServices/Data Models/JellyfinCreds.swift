@@ -7,7 +7,13 @@
 import Foundation
 
 public struct JellyfinCreds {
-    let userName: String
-    let password: String
-    let accessToken: String
+    public let userName: String
+    public let password: String
+    public let accessToken: String
+    
+    public init(userName: String, password: String, accessToken: String) {
+        self.userName = userName
+        self.password = password
+        self.accessToken = accessToken
+    }
 }
