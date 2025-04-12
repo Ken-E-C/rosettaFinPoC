@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import JellyfinAPI
+import DataModels
 
 @MainActor
 public final class JellyfinLoginManager: ObservableObject {
@@ -32,13 +33,13 @@ public final class JellyfinLoginManager: ObservableObject {
         }
         
         
-        let configuration = JellyfinClient.Configuration(
-            url: serverUrl,
-            client: "RosettaFin",
-            deviceName: "RosettaFinDevice",
-            deviceID: "RosettaFin Id",
-            version: "0.0.1")
-        let client = JellyfinClient(configuration: configuration)
+//        let configuration = JellyfinClient.Configuration(
+//            url: serverUrl,
+//            client: "RosettaFin",
+//            deviceName: "RosettaFinDevice",
+//            deviceID: "RosettaFin Id",
+//            version: "0.0.1")
+//        let client = JellyfinClient(configuration: configuration)
         self.isLoggedIn = nil
         Task.detached(priority: .userInitiated) {
             do {

@@ -25,13 +25,16 @@ struct JellyfinSetupView: View {
         VStack(alignment: .leading) {
             TextBox(
                 placeholderText: "ServerUrl...",
-                inputText: $serverUrl)
+                inputText: $serverUrl,
+                disableAutocorrect: true)
             TextBox(
                 placeholderText: "UserName...",
-                inputText: $username)
+                inputText: $username,
+                disableAutocorrect: true)
             TextBox(
                 placeholderText: "Password...",
-                inputText: $password)
+                inputText: $password,
+                isSecure: true)
             buttonPanel
             Spacer()
         }

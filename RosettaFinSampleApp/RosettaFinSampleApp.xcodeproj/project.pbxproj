@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		885A87A92DA7DEBB00717DB5 /* MediaServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MediaServices; sourceTree = "<group>"; };
+		885A87AD2DA9707F00717DB5 /* DataModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DataModels; sourceTree = "<group>"; };
 		EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RosettaFinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD6B2DA485CE00859F2F /* RosettaFinSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD752DA485CE00859F2F /* RosettaFinSampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +89,7 @@
 		EF2CDD542DA485CD00859F2F = {
 			isa = PBXGroup;
 			children = (
+				885A87AD2DA9707F00717DB5 /* DataModels */,
 				885A87A92DA7DEBB00717DB5 /* MediaServices */,
 				EF2CDD5F2DA485CD00859F2F /* RosettaFinSampleApp */,
 				EF2CDD6E2DA485CE00859F2F /* RosettaFinSampleAppTests */,
