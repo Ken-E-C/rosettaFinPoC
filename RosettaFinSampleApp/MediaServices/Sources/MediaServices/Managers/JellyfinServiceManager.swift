@@ -13,6 +13,10 @@ import DataModels
 @MainActor
 public final class JellyfinServiceManager: ObservableObject {
     
+    public enum JellyfinServiceError: Error {
+        case loginFailedOnServerSide
+    }
+    
     @Published var jellyfinClient: JellyfinClient?
     
     @Published public var isLoggedIn: Bool? = false
@@ -45,6 +49,7 @@ public final class JellyfinServiceManager: ObservableObject {
         serverUrlString: String,
         userName: String,
         password: String,
+        callback: @escaping (String?, JellyfinServiceError?) -> Void
     ) {
         print("JellyfinServiceManager: serverUrl = \(serverUrlString)")
         print("JellyfinServiceManager: UserName = \(userName)")
@@ -73,6 +78,8 @@ public final class JellyfinServiceManager: ObservableObject {
                        guard let self else { return }
                        self.accessToken = token
                        self.isLoggedIn = true
+                       
+                       callback(self.accessToken, nil)
                     }
                 }
             } catch {
@@ -80,6 +87,8 @@ public final class JellyfinServiceManager: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     self.isLoggedIn = false
+                    
+                    callback(nil, .loginFailedOnServerSide)
                  }
             }
         }

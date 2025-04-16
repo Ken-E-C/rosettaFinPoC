@@ -14,8 +14,8 @@
             filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/SettingsViewModels/JellyfinSetupViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "setupLoginListener(using:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,9 +30,9 @@
             filePath = "MediaServices/Sources/MediaServices/Managers/JellyfinLoginManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "attemptLogin(serverUrlString:userName:password:)"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "attemptLogin(serverUrl:userName:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

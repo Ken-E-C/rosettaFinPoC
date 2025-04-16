@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import MediaServices
+import StorageServices
 
 @MainActor
 class JellyfinSetupViewModel: ObservableObject {
@@ -23,11 +24,14 @@ class JellyfinSetupViewModel: ObservableObject {
     @Published var accessToken: String? = nil
     
     let serviceManager: JellyfinServiceManager
+    let storageManager: MassStorageManager
     
     var cancellables = Set<AnyCancellable>()
     
-    init(givenServiceManager: JellyfinServiceManager? = nil) {
+    init(givenServiceManager: JellyfinServiceManager? = nil,
+         givenStorageManager: MassStorageManager? = nil) {
         self.serviceManager = givenServiceManager ?? MediaServices.shared.jellyfinManager
+        self.storageManager = givenStorageManager ?? StorageServices.shared.massStorageManager
         setupLoginListener(using: serviceManager.$isLoggedIn)
     }
     
@@ -51,8 +55,7 @@ class JellyfinSetupViewModel: ObservableObject {
     func attemptLogin(
         to serverUrl: String,
         for userName: String,
-        with password: String,
-        // storageManager: MassStorageManager
+        with password: String
     ) {
         guard let isLoggedIn = serviceManager.isLoggedIn else {
             print("JellyfinSetupViewModel: Warning: Login in Progress")
@@ -62,7 +65,23 @@ class JellyfinSetupViewModel: ObservableObject {
             serviceManager.attemptLogin(
                 serverUrlString: serverUrl,
                 userName: userName,
-                password: password)
+                password: password) { [weak self] accessToken, error in
+                    guard let self else { return }
+                    if let error {
+                        print("Error returned from login attempt: \(error)")
+                        return
+                    }
+                    
+                    if let accessToken {
+                        self.storageManager.saveJellyfinLogin(
+                            on: serverUrl,
+                            for: userName,
+                            password: password,
+                            token: accessToken)
+                        return 
+                    }
+                    print("WARNING: Login returned with no token or error thrown")
+                }
         }
     }
 }

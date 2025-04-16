@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */ = {isa = PBXBuildFile; productRef = 885A87AB2DA7FC0400717DB5 /* MediaServices */; };
+		885A87B02DAFFA8500717DB5 /* StorageServices in Frameworks */ = {isa = PBXBuildFile; productRef = 885A87AF2DAFFA8500717DB5 /* StorageServices */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		885A87A92DA7DEBB00717DB5 /* MediaServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MediaServices; sourceTree = "<group>"; };
 		885A87AD2DA9707F00717DB5 /* DataModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DataModels; sourceTree = "<group>"; };
+		885A87AE2DAFF89400717DB5 /* StorageServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = StorageServices; sourceTree = "<group>"; };
 		EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RosettaFinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD6B2DA485CE00859F2F /* RosettaFinSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2CDD752DA485CE00859F2F /* RosettaFinSampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosettaFinSampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				885A87B02DAFFA8500717DB5 /* StorageServices in Frameworks */,
 				885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +92,7 @@
 		EF2CDD542DA485CD00859F2F = {
 			isa = PBXGroup;
 			children = (
+				885A87AE2DAFF89400717DB5 /* StorageServices */,
 				885A87AD2DA9707F00717DB5 /* DataModels */,
 				885A87A92DA7DEBB00717DB5 /* MediaServices */,
 				EF2CDD5F2DA485CD00859F2F /* RosettaFinSampleApp */,
@@ -130,6 +134,7 @@
 			name = RosettaFinSampleApp;
 			packageProductDependencies = (
 				885A87AB2DA7FC0400717DB5 /* MediaServices */,
+				885A87AF2DAFFA8500717DB5 /* StorageServices */,
 			);
 			productName = RosettaFinSampleApp;
 			productReference = EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */;
@@ -618,6 +623,10 @@
 		885A87AB2DA7FC0400717DB5 /* MediaServices */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MediaServices;
+		};
+		885A87AF2DAFFA8500717DB5 /* StorageServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StorageServices;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
