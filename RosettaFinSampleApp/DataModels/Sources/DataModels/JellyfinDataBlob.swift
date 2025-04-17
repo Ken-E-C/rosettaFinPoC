@@ -5,19 +5,25 @@
 //  Created by Kenny Cabral on 4/11/25.
 //
 
+import Foundation
 import SwiftData
 
 @Model
 public class JellyfinDataBlob {
     public var serverUrl: String
-    public var credentials: [JellyfinCredentials]
+    public var credentials: Set<JellyfinCredentials>
     
-    public init(serverUrl: String, credentials: [JellyfinCredentials]) {
+    public init(serverUrl: String, credentials: Set<JellyfinCredentials>) {
         self.serverUrl = serverUrl
         self.credentials = credentials
     }
     
-    public func getCredentials(for user: String) -> JellyfinCredentials? {
-        return credentials.first(where: { $0.userName == user})
+    public func updateToken(for user: String, with token: String) -> Bool {
+        guard let currentCred = credentials.first(where: { $0.userName == user }) else {
+            print("WARNING: No credentials found for user \(user)")
+            return false
+        }
+        currentCred.accessToken = token
+        return true
     }
 }

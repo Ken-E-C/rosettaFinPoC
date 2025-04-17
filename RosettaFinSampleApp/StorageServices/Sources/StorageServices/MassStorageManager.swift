@@ -24,20 +24,36 @@ public class MassStorageManager {
         on serverUrlString: String,
         for userName: String,
         password: String,
-        token accessToken: String) {
+        token accessToken: String
+    ) {
             
-            let descriptor = FetchDescriptor<JellyfinDataBlob>(
-                predicate: #Predicate { $0.serverUrl == serverUrlString },
-                sortBy: [.init(\.serverUrl, order: .forward)]
-            )
-            
-            if let serverDataBlob = fetchJellyfinServerInfo(using: descriptor),
-               let userInfo = serverDataBlob.getCredentials(for: userName) {
-                userInfo.accessToken = accessToken
-                container?.mainContext
+        let descriptor = FetchDescriptor<JellyfinDataBlob>(
+            predicate: #Predicate { $0.serverUrl == serverUrlString },
+            sortBy: [.init(\.serverUrl, order: .forward)]
+        )
+        
+        if let serverDataBlob = fetchJellyfinServerInfo(using: descriptor) {
+            if serverDataBlob.updateToken(for: userName, with: accessToken) {
+                saveContext()
+            } else {
+                print("Error saving updated token info for user \(userName)")
             }
-            
+        } else {
+            print("WARNING: No saved data found for \(serverUrlString). Creating new entry.")
+            let newCreds = JellyfinCredentials(userName: userName, password: password, accessToken: accessToken)
+            let newDataBlob = JellyfinDataBlob(serverUrl: serverUrlString, credentials: [newCreds])
+            addServerData(using: newDataBlob)
+            saveContext()
         }
+    }
+    
+    private func addServerData(using dataBlob: JellyfinDataBlob) {
+        guard let container else {
+            print("Error: ModelContainer not initialized")
+            return
+        }
+        container.mainContext.insert(dataBlob)
+    }
     
     private func fetchJellyfinServerInfo(using descriptor: FetchDescriptor<JellyfinDataBlob>) -> JellyfinDataBlob? {
         guard let container else {
@@ -50,6 +66,20 @@ public class MassStorageManager {
         } catch {
             print("Error fetching data with the following descriptor: \(descriptor)")
             return nil
+        }
+    }
+    
+    
+    
+    private func saveContext() {
+        guard let container else {
+            print("Error: ModelContainer not initialized")
+            return
+        }
+        do {
+            try container.mainContext.save()
+        } catch {
+            print("Error saving mainContext")
         }
     }
 }
