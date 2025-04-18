@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8C9BD4E0-B3FF-45AA-B801-C84EACF5C03D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/SettingsViewModels/JellyfinSetupViewModel.swift"
@@ -33,6 +33,22 @@
             startingLineNumber = "47"
             endingLineNumber = "47"
             landmarkName = "attemptLogin(serverUrl:userName:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E4B7BE9-D769-4E26-88EE-83A5907ED10C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RosettaFinSampleAppTests/Mocks/MockJellyfinServiceManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "attemptLogin(serverUrlString:userName:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

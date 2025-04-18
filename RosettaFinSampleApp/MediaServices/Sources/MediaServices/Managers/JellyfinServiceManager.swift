@@ -11,16 +11,44 @@ import JellyfinAPI
 import DataModels
 
 @MainActor
-public final class JellyfinServiceManager: ObservableObject {
+public protocol JellyfinServiceManagerProtocol {
+    func attemptLogin(
+        serverUrlString: String,
+        userName: String,
+        password: String
+    )
+    
+    var jellyfinClient: JellyfinClient? { get }
+    var jellyfinClientPublisher: Published<JellyfinClient?>.Publisher { get }
+    
+    var isLoggedIn: Bool? { set get }
+    var isLoggedInPublisher: Published<Bool?>.Publisher { get }
+    
+    var accessToken: String? { set get }
+    var accessTokenPublisher: Published<String?>.Publisher { get }
+}
+
+@MainActor
+public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, ObservableObject {
     
     public enum JellyfinServiceError: Error {
         case loginFailedOnServerSide
     }
     
-    @Published var jellyfinClient: JellyfinClient?
+    @Published public private(set) var jellyfinClient: JellyfinClient?
+    public var jellyfinClientPublisher: Published<JellyfinClient?>.Publisher {
+        $jellyfinClient
+    }
     
     @Published public var isLoggedIn: Bool? = false
+    public var isLoggedInPublisher: Published<Bool?>.Publisher {
+        $isLoggedIn
+    }
+    
     @Published public var accessToken: String? = nil
+    public var accessTokenPublisher: Published<String?>.Publisher {
+        $accessToken
+    }
     
     init(isLoggedIn: Bool = false) {
         self.isLoggedIn = isLoggedIn

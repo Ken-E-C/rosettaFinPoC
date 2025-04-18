@@ -23,16 +23,16 @@ class JellyfinSetupViewModel: ObservableObject {
     @Published var isLoggedIn: LoginState = .authInProgress
     @Published var accessToken: String? = nil
     
-    let serviceManager: JellyfinServiceManager
+    let serviceManager: JellyfinServiceManagerProtocol
     let storageManager: MassStorageManager
     
     var cancellables = Set<AnyCancellable>()
     
-    init(givenServiceManager: JellyfinServiceManager? = nil,
+    init(givenServiceManager: JellyfinServiceManagerProtocol? = nil,
          givenStorageManager: MassStorageManager? = nil) {
         self.serviceManager = givenServiceManager ?? MediaServices.shared.jellyfinManager
         self.storageManager = givenStorageManager ?? StorageServices.shared.massStorageManager
-        setupLoginListener(using: serviceManager.$isLoggedIn)
+        setupLoginListener(using: serviceManager.isLoggedInPublisher)
     }
     
     private func setupLoginListener(using listenerPublisher: Published<Bool?>.Publisher) {
