@@ -15,7 +15,8 @@ public protocol JellyfinServiceManagerProtocol {
     func attemptLogin(
         serverUrlString: String,
         userName: String,
-        password: String
+        password: String,
+        callback: @escaping (String?, JellyfinServiceManager.JellyfinServiceError?) -> Void
     )
     
     var jellyfinClient: JellyfinClient? { get }
