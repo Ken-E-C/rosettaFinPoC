@@ -14,7 +14,7 @@ public class MediaServices: ObservableObject {
     
     public func setupServices(with jellyfinServerData: JellyfinDataBlob?) {
         if let data = jellyfinServerData {
-            let token = data.credentials.first?.accessToken
+            let token = data.getLastUser()?.accessToken
             jellyfinManager.setupJellyfinClient(with: data.serverUrl, using: token)
         }
     }

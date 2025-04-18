@@ -14,17 +14,31 @@ public class MassStorageManager {
     
     public init(container: ModelContainer? = nil) {
         do {
-            self.container = try ModelContainer(for: JellyfinDataBlob.self)
+            self.container = try ModelContainer(for: JellyfinDataBlob.self, JellyfinCredentials.self)
         } catch {
             print("Error: Unable to initialize SwiftData container in MassStorageManager")
         }
+    }
+    
+    public func fetchLastUsedServerData() -> JellyfinDataBlob? {
+        let descriptor = FetchDescriptor<JellyfinDataBlob>(
+            sortBy: [SortDescriptor(\.lastAccessed, order: .reverse)]
+        )
+        
+        guard let lastUsedServer = fetchJellyfinServerInfo(using: descriptor) else {
+            print("WARNING: No Server data was found using descriptor \(descriptor).")
+            return nil
+        }
+        
+        return lastUsedServer
     }
     
     public func saveJellyfinLogin(
         on serverUrlString: String,
         for userName: String,
         password: String,
-        token accessToken: String
+        token accessToken: String,
+        accessDate: Date
     ) {
             
         let descriptor = FetchDescriptor<JellyfinDataBlob>(
@@ -33,15 +47,28 @@ public class MassStorageManager {
         )
         
         if let serverDataBlob = fetchJellyfinServerInfo(using: descriptor) {
-            if serverDataBlob.updateToken(for: userName, with: accessToken) {
+            if serverDataBlob.updateToken(for: userName, with: accessToken, on: accessDate) {
                 saveContext()
             } else {
-                print("Error saving updated token info for user \(userName)")
+                print("Attempting to create new user entry")
+                guard serverDataBlob.addCredential(
+                    for: userName,
+                    with: password,
+                    using: accessToken,
+                    on: accessDate) else {
+                    print("Error: unable to create new credential for user \(userName)")
+                    return 
+                }
             }
         } else {
             print("WARNING: No saved data found for \(serverUrlString). Creating new entry.")
-            let newCreds = JellyfinCredentials(userName: userName, password: password, accessToken: accessToken)
-            let newDataBlob = JellyfinDataBlob(serverUrl: serverUrlString, credentials: [newCreds])
+            let newDataBlob = JellyfinDataBlob(serverUrl: serverUrlString, credentials: [])
+            newDataBlob.addCredential(
+                for: userName,
+                with: password,
+                using: accessToken,
+                on: accessDate)
+            
             addServerData(using: newDataBlob)
             saveContext()
         }

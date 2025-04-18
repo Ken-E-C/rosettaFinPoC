@@ -10,16 +10,19 @@ public class JellyfinCredentials: Codable, Hashable {
         case userName
         case password
         case accessToken
+        case lastUsed
     }
     
     public var userName: String
     public var password: String
     public var accessToken: String?
+    public var lastUsed: Date?
     
-    public init(userName: String, password: String, accessToken: String?) {
+    public init(userName: String, password: String, accessToken: String?, lastUsed: Date?) {
         self.userName = userName
         self.password = password
         self.accessToken = accessToken
+        self.lastUsed = lastUsed
     }
     
     // MARK: - Conformance BS
@@ -28,6 +31,7 @@ public class JellyfinCredentials: Codable, Hashable {
         self.userName = try container.decode(String.self, forKey: .userName)
         self.password = try container.decode(String.self, forKey: .password)
         self.accessToken = try container.decodeIfPresent(String.self, forKey: .accessToken)
+        self.lastUsed = try container.decodeIfPresent(Date.self, forKey: .lastUsed)
     }
     
     public func encode(to encoder: any Encoder) throws {
@@ -35,6 +39,7 @@ public class JellyfinCredentials: Codable, Hashable {
         try container.encode(self.userName, forKey: .userName)
         try container.encode(self.password, forKey: .password)
         try container.encodeIfPresent(self.accessToken, forKey: .accessToken)
+        try container.encodeIfPresent(self.lastUsed, forKey: .lastUsed)
     }
     
     public static func == (lhs: JellyfinCredentials, rhs: JellyfinCredentials) -> Bool {

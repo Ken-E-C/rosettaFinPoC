@@ -77,8 +77,9 @@ class JellyfinSetupViewModel: ObservableObject {
                             on: serverUrl,
                             for: userName,
                             password: password,
-                            token: accessToken)
-                        return 
+                            token: accessToken,
+                            accessDate: Date.now)
+                        return
                     }
                     print("WARNING: Login returned with no token or error thrown")
                 }
