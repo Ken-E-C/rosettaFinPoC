@@ -23,6 +23,9 @@ class JellyfinSetupViewModel: ObservableObject {
     @Published var isLoggedIn: LoginState = .authInProgress
     @Published var accessToken: String? = nil
     
+    @Published var startingServerUrl: String = ""
+    @Published var startingUsername: String = ""
+    
     let serviceManager: JellyfinServiceManagerProtocol
     let storageManager: MassStorageManager
     
@@ -32,7 +35,22 @@ class JellyfinSetupViewModel: ObservableObject {
          givenStorageManager: MassStorageManager? = nil) {
         self.serviceManager = givenServiceManager ?? MediaServices.shared.jellyfinManager
         self.storageManager = givenStorageManager ?? StorageServices.shared.massStorageManager
+        populateLoginFields(using: storageManager, with: serviceManager.accessToken)
         setupLoginListener(using: serviceManager.isLoggedInPublisher)
+    }
+    
+    private func populateLoginFields(using storageManager: MassStorageManager, with token: String?) {
+        guard let currentServerData = storageManager.fetchLastUsedServerData() else {
+            print("Warning: no server data was found. leaving fields blank")
+            return
+        }
+        startingServerUrl = currentServerData.serverUrl
+        
+        guard let currentUser = currentServerData.getLastUser() else {
+            print("Warning: no user data was found for \(startingServerUrl). leaving user field blank")
+            return
+        }
+        startingUsername = currentUser.userName
     }
     
     private func setupLoginListener(using listenerPublisher: Published<Bool?>.Publisher) {

@@ -50,6 +50,12 @@ struct JellyfinSetupView: View {
                 loginStatus = "Unknown"
             }
         })
+        .onReceive(viewModel.$startingServerUrl, perform: { newServerUrl in
+            serverUrl = newServerUrl
+        })
+        .onReceive(viewModel.$startingUsername, perform: { newUsername in
+            username = newUsername
+        })
         .padding(.top, 24.0)
         .padding(.horizontal)
     }
