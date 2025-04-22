@@ -21,7 +21,6 @@ class JellyfinSetupViewModel: ObservableObject {
     }
     
     @Published var isLoggedIn: LoginState = .authInProgress
-    @Published var accessToken: String? = nil
     
     @Published var startingServerUrl: String = ""
     @Published var startingUsername: String = ""
@@ -91,7 +90,7 @@ class JellyfinSetupViewModel: ObservableObject {
                     }
                     
                     if let accessToken {
-                        self.storageManager.saveJellyfinLogin(
+                        self.storageManager.saveJellyfinUserInfo(
                             on: serverUrl,
                             for: userName,
                             password: password,
@@ -101,6 +100,24 @@ class JellyfinSetupViewModel: ObservableObject {
                     }
                     print("WARNING: Login returned with no token or error thrown")
                 }
+        }
+    }
+    
+    func attemptLogout(from serverUrl: String?, ofUser user: String?) {
+        guard let serverUrl, !serverUrl.isEmpty, let user, !user.isEmpty else {
+            print("Warning: No valid serverurl and/or user info to perform logout was provided. Exiting.")
+            return
+        }
+        serviceManager.attemptLogout() { [weak self] didSucceed in
+            guard let self else { return }
+            guard didSucceed else {
+                print("Error: Logout FAILED.")
+                return
+            }
+            guard storageManager.updateToken(for: user, on: serverUrl, using: nil, accessDate: Date.now) else {
+                print("Error: Nullifying token for \(user) FAILED")
+                return
+            }
         }
     }
 }

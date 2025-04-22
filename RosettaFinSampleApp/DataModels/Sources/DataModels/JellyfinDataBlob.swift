@@ -41,7 +41,7 @@ public class JellyfinDataBlob {
         return false
     }
     
-    public func updateToken(for user: String, with token: String, on accessDate: Date) -> Bool {
+    public func updateToken(for user: String, with token: String?, on accessDate: Date) -> Bool {
         guard let currentCredIndex = credentials.firstIndex(where: { $0.userName == user }) else {
             print("WARNING: No credentials found for user \(user)")
             return false

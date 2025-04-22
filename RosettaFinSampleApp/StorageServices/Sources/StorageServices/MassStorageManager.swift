@@ -33,11 +33,30 @@ public class MassStorageManager {
         return lastUsedServer
     }
     
-    public func saveJellyfinLogin(
+    public func updateToken(for username: String, on serverUrlString: String, using accessToken: String?, accessDate: Date) -> Bool {
+        let descriptor = FetchDescriptor<JellyfinDataBlob>(
+            predicate: #Predicate { $0.serverUrl == serverUrlString },
+            sortBy: [.init(\.serverUrl, order: .forward)]
+        )
+        
+        if let serverDataBlob = fetchJellyfinServerInfo(using: descriptor) {
+            if serverDataBlob.updateToken(for: username, with: accessToken, on: accessDate) {
+                saveContext()
+                return true
+            } else {
+                print("Warning: No user data found for \(username) in \(serverUrlString)")
+            }
+        } else {
+            print("Warning: No Server data found for \(serverUrlString)")
+        }
+        return false
+    }
+    
+    public func saveJellyfinUserInfo(
         on serverUrlString: String,
         for userName: String,
         password: String,
-        token accessToken: String,
+        token accessToken: String?,
         accessDate: Date
     ) {
             
@@ -51,7 +70,7 @@ public class MassStorageManager {
                 saveContext()
             } else {
                 print("Attempting to create new user entry")
-                guard serverDataBlob.addCredential(
+                guard let accessToken, serverDataBlob.addCredential(
                     for: userName,
                     with: password,
                     using: accessToken,
@@ -62,6 +81,10 @@ public class MassStorageManager {
             }
         } else {
             print("WARNING: No saved data found for \(serverUrlString). Creating new entry.")
+            guard let accessToken else {
+                print("Error: no accessToken found when one was expected")
+                return
+            }
             let newDataBlob = JellyfinDataBlob(serverUrl: serverUrlString, credentials: [])
             newDataBlob.addCredential(
                 for: userName,

@@ -61,14 +61,21 @@ struct JellyfinSetupView: View {
     }
     
     var buttonPanel: some View {
-        HStack {
-            SimpleButton(title: "Login") {
-                viewModel.attemptLogin(
-                    to: serverUrl,
-                    for: username,
-                    with: password)
+        VStack {
+            HStack {
+                SimpleButton(title: "Login") {
+                    viewModel.attemptLogin(
+                        to: serverUrl,
+                        for: username,
+                        with: password)
+                }
+                SimpleButton(title: "Log Out") {
+                    viewModel.attemptLogout(
+                        from: serverUrl,
+                        ofUser: username)
+                }
+                Spacer()
             }
-            Spacer()
             Text("Login Status: \(loginStatus)")
         }
     }

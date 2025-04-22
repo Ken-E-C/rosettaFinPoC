@@ -12,13 +12,6 @@ import DataModels
 
 @MainActor
 public protocol JellyfinServiceManagerProtocol {
-    func attemptLogin(
-        serverUrlString: String,
-        userName: String,
-        password: String,
-        callback: @escaping (String?, JellyfinServiceManager.JellyfinServiceError?) -> Void
-    )
-    
     var jellyfinClient: JellyfinClient? { get }
     var jellyfinClientPublisher: Published<JellyfinClient?>.Publisher { get }
     
@@ -27,6 +20,15 @@ public protocol JellyfinServiceManagerProtocol {
     
     var accessToken: String? { set get }
     var accessTokenPublisher: Published<String?>.Publisher { get }
+    
+    func attemptLogin(
+        serverUrlString: String,
+        userName: String,
+        password: String,
+        callback: @escaping (String?, JellyfinServiceManager.JellyfinServiceError?) -> Void
+    )
+    
+    func attemptLogout(callback: @escaping (Bool) -> Void)
 }
 
 @MainActor
@@ -121,6 +123,37 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
                  }
             }
         }
+    }
+    
+    public func attemptLogout(callback: @escaping (Bool) -> Void) {
+        guard let jellyfinClient else {
+            print("Error: No JellyfinClient has been setup. Cancelling Logout attempt.")
+            callback(false)
+            return
+        }
         
+        guard accessToken != nil else {
+            print("Warning: no accessToken was found. Cancelling logout")
+            callback(false)
+            return
+        }
+    
+        Task.detached(priority: .userInitiated) { [weak self] in
+            guard let self else { return }
+            do {
+                try await jellyfinClient.signOut()
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.isLoggedIn = false
+                    self.accessToken = nil
+                    callback(true)
+                }
+            } catch (let error) {
+                print("Error: Unable to sign out \(error)")
+                await MainActor.run {
+                    callback(false)
+                }
+            }
+        }
     }
 }
