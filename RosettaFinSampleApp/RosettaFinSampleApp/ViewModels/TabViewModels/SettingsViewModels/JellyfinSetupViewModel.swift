@@ -82,17 +82,18 @@ class JellyfinSetupViewModel: ObservableObject {
             serviceManager.attemptLogin(
                 serverUrlString: serverUrl,
                 userName: userName,
-                password: password) { [weak self] accessToken, error in
+                password: password) { [weak self] accessToken, userData, error in
                     guard let self else { return }
                     if let error {
                         print("Error returned from login attempt: \(error)")
                         return
                     }
                     
-                    if let accessToken {
+                    if let accessToken, let userId = userData?.id {
                         self.storageManager.saveJellyfinUserInfo(
                             on: serverUrl,
                             for: userName,
+                            withId: userId,
                             password: password,
                             token: accessToken,
                             accessDate: Date.now)

@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import DataModels
 
 struct QueueView: View {
     @StateObject var viewModel: QueueViewModel
-    @State var enqueuedSongs = [SongInfo]()
+    @State var enqueuedSongs = [MusicInfo]()
     
-    init(viewModel: QueueViewModel = QueueViewModel()) {
+    init(givenViewModel: QueueViewModel? = nil) {
+        let viewModel = givenViewModel ?? QueueViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     

@@ -55,6 +55,7 @@ public class MassStorageManager {
     public func saveJellyfinUserInfo(
         on serverUrlString: String,
         for userName: String,
+        withId id: String,
         password: String,
         token accessToken: String?,
         accessDate: Date
@@ -72,6 +73,7 @@ public class MassStorageManager {
                 print("Attempting to create new user entry")
                 guard let accessToken, serverDataBlob.addCredential(
                     for: userName,
+                    withId: id,
                     with: password,
                     using: accessToken,
                     on: accessDate) else {
@@ -88,6 +90,7 @@ public class MassStorageManager {
             let newDataBlob = JellyfinDataBlob(serverUrl: serverUrlString, credentials: [])
             newDataBlob.addCredential(
                 for: userName,
+                withId: id,
                 with: password,
                 using: accessToken,
                 on: accessDate)

@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import DataModels
 
 struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
-    @State var enqueuedSongs = [SongInfo]()
-    @State var searchText = ""
+    @State var enqueuedSongs = [MusicInfo]()
     
-    init(viewModel: SearchViewModel = SearchViewModel()) {
+    init(givenViewModel: SearchViewModel? = nil) {
+        let viewModel = givenViewModel ?? SearchViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -29,7 +30,7 @@ struct SearchView: View {
     var searchLayer: some View {
         VStack {
             Spacer()
-            SearchBar(searchText: $searchText)
+            SearchBar(searchText: $viewModel.searchText)
                 .padding(.bottom, 20.0)
         }
         

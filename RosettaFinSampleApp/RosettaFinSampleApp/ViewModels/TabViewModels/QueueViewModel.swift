@@ -6,9 +6,10 @@
 //
 
 import Combine
+import DataModels
 
 class QueueViewModel: ObservableObject {
-    @Published var enqueuedSongs = [SongInfo]()
+    @Published var enqueuedSongs = [MusicInfo]()
     
     init() {
         setupMockSongs()
@@ -16,10 +17,10 @@ class QueueViewModel: ObservableObject {
     
     private func setupMockSongs() {
         enqueuedSongs = [
-            SongInfo(name: "Bohemian Rhapsody", artist: "Queen"),
-            SongInfo(name: "Imagine", artist: "John Lennon"),
-            SongInfo(name: "Never Gonna Give You Up", artist: "Rick Astley"),
-            SongInfo(name: "Hey Jude", artist: "The Beatles"),
+            MusicInfo(name: "Bohemian Rhapsody", artist: "Queen"),
+            MusicInfo(name: "Imagine", artist: "John Lennon"),
+            MusicInfo(name: "Never Gonna Give You Up", artist: "Rick Astley"),
+            MusicInfo(name: "Hey Jude", artist: "The Beatles"),
         ]
     }
 }

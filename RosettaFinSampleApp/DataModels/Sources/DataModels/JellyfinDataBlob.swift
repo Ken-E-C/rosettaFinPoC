@@ -22,12 +22,14 @@ public class JellyfinDataBlob {
     @discardableResult
     public func addCredential(
         for userName: String,
+        withId id: String,
         with password: String,
         using accessToken: String,
         on accessDate: Date
     ) -> Bool {
         let newCreds = JellyfinCredentials(
             userName: userName,
+            userId: id,
             password: password,
             accessToken: accessToken,
             lastUsed: accessDate
