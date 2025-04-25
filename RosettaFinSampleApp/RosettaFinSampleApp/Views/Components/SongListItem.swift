@@ -6,10 +6,26 @@
 //
 import SwiftUI
 
-struct SongListItem: View {
+struct SongListItem<Content: View>: View {
     
     let name: String
     let artist: String
+    let content: () -> Content
+    
+    init(
+        name: String,
+        artist: String,
+        content: @escaping () -> Content) {
+        self.name = name
+        self.artist = artist
+        self.content = content
+    }
+    
+    init(name: String, artist: String) where Content == EmptyView {
+        self.name = name
+        self.artist = artist
+        self.content = { EmptyView() }
+    }
     
     var body: some View {
         HStack {
@@ -20,6 +36,7 @@ struct SongListItem: View {
                     .font(.subheadline)
             }
             Spacer()
+            content()
         }
         .padding()
     }

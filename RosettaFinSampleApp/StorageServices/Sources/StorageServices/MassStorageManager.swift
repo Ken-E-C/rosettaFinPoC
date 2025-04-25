@@ -14,12 +14,12 @@ public class MassStorageManager {
     
     public init(container: ModelContainer? = nil) {
         do {
-            self.container = try ModelContainer(for: JellyfinDataBlob.self, JellyfinCredentials.self)
+            self.container = try ModelContainer(for: JellyfinDataBlob.self, JellyfinCredentials.self, QueueData.self)
         } catch {
             print("Error: Unable to initialize SwiftData container in MassStorageManager")
         }
     }
-    
+// MARK: - Jellyfin Server Stuff
     public func fetchLastUsedServerData() -> JellyfinDataBlob? {
         let descriptor = FetchDescriptor<JellyfinDataBlob>(
             sortBy: [SortDescriptor(\.lastAccessed, order: .reverse)]
@@ -121,9 +121,54 @@ public class MassStorageManager {
             return nil
         }
     }
+// MARK: - Queue Storage Management
     
+    public func loadQueue() -> QueueData? {
+        guard let container else {
+            print("Error: ModelContainer not initialized")
+            return nil
+        }
+        
+        let descriptor = FetchDescriptor<QueueData>()
+        
+        do {
+            return try container.mainContext.fetch(descriptor).first
+        } catch {
+            print("Error fetching data with the following descriptor: \(descriptor)")
+            return nil
+        }
+    }
     
+    private func createQueue(with newQueue: [MusicInfo]) {
+        guard let container else {
+            print("Error: ModelContainer not initialized")
+            return
+        }
+        
+        let newQueueData = QueueData(enqueuedSongs: [:])
+        newQueueData.replaceQueue(with: newQueue)
+        
+        container.mainContext.insert(newQueueData)
+    }
     
+    @discardableResult
+    public func replaceQueue(with newQueue: [MusicInfo]) -> Bool {
+        if let queue = loadQueue() {
+            if queue.replaceQueue(with: newQueue) {
+                saveContext()
+                return true
+            } else {
+                return false
+            }
+        } else {
+            print("Warning: No queue data found. Creating new QueueData")
+            createQueue(with: newQueue)
+            saveContext()
+            return true
+        }
+    }
+    
+// MARK: - Universal Storage Functions
     private func saveContext() {
         guard let container else {
             print("Error: ModelContainer not initialized")

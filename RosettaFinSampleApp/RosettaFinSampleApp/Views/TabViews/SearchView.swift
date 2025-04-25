@@ -9,8 +9,9 @@ import SwiftUI
 import DataModels
 
 struct SearchView: View {
+    typealias ListItemInfo = SearchViewModel.ListItemInfo
     @StateObject var viewModel: SearchViewModel
-    @State var enqueuedSongs = [MusicInfo]()
+    @State var enqueuedSongs = [ListItemInfo]()
     
     init(givenViewModel: SearchViewModel? = nil) {
         let viewModel = givenViewModel ?? SearchViewModel()
@@ -22,7 +23,7 @@ struct SearchView: View {
             listLayer
             searchLayer
         }
-        .onReceive(viewModel.$enqueuedSongs) { newSongs in
+        .onReceive(viewModel.$searchResults) { newSongs in
             enqueuedSongs = newSongs
         }
     }
@@ -39,8 +40,17 @@ struct SearchView: View {
     var listLayer: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(enqueuedSongs) { song in
-                    SongListItem(name: song.name, artist: song.artist)
+                ForEach(enqueuedSongs, id: \.musicInfo.id) { info in
+                    SongListItem(
+                        name: info.musicInfo.name,
+                        artist: info.musicInfo.artist) {
+                            Button {
+                                viewModel.didSelect(info)
+                            } label: {
+                                info.isSelected ? Image(systemName: "circle.fill") : Image(systemName: "circle")
+                            }
+
+                        }
                 }
             }
             .background(.ultraThinMaterial)
