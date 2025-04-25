@@ -7,20 +7,27 @@
 
 import Combine
 import DataModels
+import MediaServices
+import StorageServices
 
+@MainActor
 class QueueViewModel: ObservableObject {
     @Published var enqueuedSongs = [MusicInfo]()
     
-    init() {
-        setupMockSongs()
+    var mediaServices: MediaServices
+    var storageServices: StorageServices
+    
+    init(mediaServices: MediaServices? = nil, storageServices: StorageServices? = nil) {
+        self.mediaServices = mediaServices ?? MediaServices.shared
+        self.storageServices = storageServices ?? StorageServices.shared
+        // loadSelectedSongs()
     }
     
-    private func setupMockSongs() {
-        enqueuedSongs = [
-            MusicInfo(name: "Bohemian Rhapsody", artist: "Queen"),
-            MusicInfo(name: "Imagine", artist: "John Lennon"),
-            MusicInfo(name: "Never Gonna Give You Up", artist: "Rick Astley"),
-            MusicInfo(name: "Hey Jude", artist: "The Beatles"),
-        ]
+    func loadSelectedSongs() {
+        guard let queuedSongsDict = storageServices.massStorageManager.loadQueue()?.enqueuedSongs else {
+            print("Warning: No songs found in persistent storage")
+            return
+        }
+        enqueuedSongs = Array(queuedSongsDict.values)
     }
 }

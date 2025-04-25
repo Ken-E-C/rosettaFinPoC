@@ -32,5 +32,8 @@ struct QueueView: View {
         .onReceive(viewModel.$enqueuedSongs) { newSongs in
             enqueuedSongs = newSongs
         }
+        .onAppear {
+            viewModel.loadSelectedSongs()
+        }
     }
 }

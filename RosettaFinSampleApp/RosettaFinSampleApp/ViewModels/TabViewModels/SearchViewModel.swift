@@ -50,7 +50,6 @@ class SearchViewModel: ObservableObject {
             return
         }
         selectedSongs = Array(queuedSongsDict.values)
-        
     }
     
     private func setupSearchListener(using publisher: Published<String>.Publisher) {
