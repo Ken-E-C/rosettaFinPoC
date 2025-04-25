@@ -20,7 +20,6 @@ class QueueViewModel: ObservableObject {
     init(mediaServices: MediaServices? = nil, storageServices: StorageServices? = nil) {
         self.mediaServices = mediaServices ?? MediaServices.shared
         self.storageServices = storageServices ?? StorageServices.shared
-        // loadSelectedSongs()
     }
     
     func loadSelectedSongs() {

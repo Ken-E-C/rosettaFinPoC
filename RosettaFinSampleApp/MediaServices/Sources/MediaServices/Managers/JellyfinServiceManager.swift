@@ -146,7 +146,7 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
             callback(false)
             return
         }
-        
+
         Task.detached(priority: .userInitiated) { [weak self] in
             guard let self else { return }
             do {
