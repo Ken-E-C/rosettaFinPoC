@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 import PlaybackServices
+import MediaServices
+import DataModels
 
 @MainActor
 final class NowPlayingViewModel: ObservableObject {
@@ -24,14 +26,18 @@ final class NowPlayingViewModel: ObservableObject {
     }
     
     let playbackManager: PlaybackManager
+    let mediaServices: MediaServices
     var playbackCancellable: AnyCancellable?
     
     @Published var currentState: PlaybackState = .stop
     @Published var currentSongTitle: String = "Nil"
     @Published var currentArtistName: String = "Nil"
+    @Published var currentSongImageUrl: URL?
     
-    init(playbackManager: PlaybackManager? = nil) {
+    init(playbackManager: PlaybackManager? = nil,
+         mediaServices: MediaServices? = nil) {
         self.playbackManager = playbackManager ?? PlaybackManager.shared
+        self.mediaServices = mediaServices ?? MediaServices.shared
         setupMediaDataListeners(for: self.playbackManager)
     }
     
@@ -41,6 +47,7 @@ final class NowPlayingViewModel: ObservableObject {
             guard let self else { return }
             self.currentSongTitle = nowPlayingMedia?.name ?? "No Song Title"
             self.currentArtistName = nowPlayingMedia?.artist ?? "No Artist Name"
+            self.loadArtwork(for: nowPlayingMedia)
         }
     }
     
@@ -58,5 +65,14 @@ final class NowPlayingViewModel: ObservableObject {
         case .forward:
             print("NowPlayingViewmodel: Did Tap forward")
         }
+    }
+    
+    func loadArtwork(for media: MusicInfo?) {
+        guard let media else {
+            print("Warning: No media found while loading artwork.")
+            return
+        }
+        let artworkUrl = mediaServices.jellyfinManager.getArtworkUrl(for: media)
+        self.currentSongImageUrl = artworkUrl
     }
 }

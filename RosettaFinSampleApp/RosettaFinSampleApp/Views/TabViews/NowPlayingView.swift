@@ -16,6 +16,7 @@ struct NowPlayingView: View {
     
     @State var currentTitle = "Song Title"
     @State var currentArtist = "Artist Name"
+    @State var currentSongImageUrl: URL?
     
     init(givenViewModel: NowPlayingViewModel? = nil) {
         let viewModel = givenViewModel ?? NowPlayingViewModel()
@@ -23,7 +24,8 @@ struct NowPlayingView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .center) {
+            imageSection
             songInfo
             playbackControls
         }
@@ -34,6 +36,30 @@ struct NowPlayingView: View {
         .onReceive(viewModel.$currentArtistName) { newName in
             currentArtist = newName
         }
+        .onReceive(viewModel.$currentSongImageUrl) { newImageUrl in
+            currentSongImageUrl = newImageUrl
+        }
+    }
+    
+    var imageSection: some View {
+        AsyncImage(url: viewModel.currentSongImageUrl) { phase in
+            switch phase {
+            case .empty:
+                Image(systemName: "photo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            case .success(let image):
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            case .failure(let error):
+                Image(systemName: "photo")
+            @unknown default:
+                EmptyView()
+            }
+        }
+        .frame(width: 200, height: 200)
+        .clipShape(RoundedRectangle(cornerRadius: 10.0))
     }
     
     var songInfo: some View {

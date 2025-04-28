@@ -215,7 +215,8 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
                 let newMusicInfo = MusicInfo(
                     name: dataItem.name ?? "No Name",
                     artist: dataItem.albumArtist ?? "No Artist",
-                    songId: songId)
+                    songId: songId,
+                    imageTags: dataItem.imageTags ?? [:])
                 musicInfoItems.append(newMusicInfo)
             }
         }
@@ -227,14 +228,33 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
             print("Error: Missing server or accessToken for getting streaming url.")
             return nil
         }
-        var components = URLComponents(string: "\(serverUrl)/Audio/\(itemId)/universal")!
-            components.queryItems = [
+        var components = URLComponents(string: "\(serverUrl)/Audio/\(itemId)/universal")
+            components?.queryItems = [
                 URLQueryItem(name: "Container", value: "mp3"), // Or "mp3"
                 URLQueryItem(name: "AudioCodec", value: "mp3"),
                 URLQueryItem(name: "MaxBitrate", value: "320000"),
                 URLQueryItem(name: "api_key", value: accessToken)
             ]
-        return components.url
+        return components?.url
+    }
+    
+    public func getArtworkUrl(for item: MusicInfo) -> URL? {
+        guard let accessToken, let serverUrl else {
+            print("Error: Missing server or accessToken for getting artwork url.")
+            return nil
+        }
+        guard let tag = item.imageTags["Primary"] else {
+            print("Warning: No Primary Image Tags were found.")
+            return nil
+        }
+        
+        var components = URLComponents(string: "\(serverUrl)/Items/\(item.songId)/Images/Primary")
+        components?.queryItems = [
+            URLQueryItem(name: "tag", value: tag),
+            URLQueryItem(name: "api_key", value: accessToken)
+            
+        ]
+        return components?.url
     }
 }
 
