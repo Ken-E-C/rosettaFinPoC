@@ -5,10 +5,12 @@
 //  Created by Kenny Cabral on 4/8/25.
 //
 
+import Foundation
 import Combine
 import DataModels
 import MediaServices
 import StorageServices
+import PlaybackServices
 
 @MainActor
 class QueueViewModel: ObservableObject {
@@ -16,10 +18,15 @@ class QueueViewModel: ObservableObject {
     
     var mediaServices: MediaServices
     var storageServices: StorageServices
+    var playbackServices: PlaybackManager
     
-    init(mediaServices: MediaServices? = nil, storageServices: StorageServices? = nil) {
+    init(
+        mediaServices: MediaServices? = nil,
+        storageServices: StorageServices? = nil,
+        playbackServices: PlaybackManager? = nil) {
         self.mediaServices = mediaServices ?? MediaServices.shared
         self.storageServices = storageServices ?? StorageServices.shared
+            self.playbackServices = playbackServices ?? PlaybackManager.shared
     }
     
     func loadSelectedSongs() {
@@ -29,4 +36,13 @@ class QueueViewModel: ObservableObject {
         }
         enqueuedSongs = Array(queuedSongsDict.values)
     }
+    
+    func startPlaying(_ song: MusicInfo) {
+        guard let streamingUrl = mediaServices.jellyfinManager.getStreamingUrl(for: song.songId) else {
+            print("Error: can't generate streamingUrl for song \(song.name)")
+            return
+        }
+        playbackServices.startPlaying(song: song, from: streamingUrl)
+    }
+    
 }

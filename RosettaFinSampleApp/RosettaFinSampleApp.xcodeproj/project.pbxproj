@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8858FBF72DBFAA3400505ECC /* PlaybackServices in Frameworks */ = {isa = PBXBuildFile; productRef = 8858FBF62DBFAA3400505ECC /* PlaybackServices */; };
 		885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */ = {isa = PBXBuildFile; productRef = 885A87AB2DA7FC0400717DB5 /* MediaServices */; };
 		885A87B02DAFFA8500717DB5 /* StorageServices in Frameworks */ = {isa = PBXBuildFile; productRef = 885A87AF2DAFFA8500717DB5 /* StorageServices */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8858FBF52DBF9EBD00505ECC /* PlaybackServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PlaybackServices; sourceTree = "<group>"; };
 		885A87A92DA7DEBB00717DB5 /* MediaServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MediaServices; sourceTree = "<group>"; };
 		885A87AD2DA9707F00717DB5 /* DataModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DataModels; sourceTree = "<group>"; };
 		885A87AE2DAFF89400717DB5 /* StorageServices */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = StorageServices; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			files = (
 				885A87B02DAFFA8500717DB5 /* StorageServices in Frameworks */,
 				885A87AC2DA7FC0400717DB5 /* MediaServices in Frameworks */,
+				8858FBF72DBFAA3400505ECC /* PlaybackServices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +95,7 @@
 		EF2CDD542DA485CD00859F2F = {
 			isa = PBXGroup;
 			children = (
+				8858FBF52DBF9EBD00505ECC /* PlaybackServices */,
 				885A87AE2DAFF89400717DB5 /* StorageServices */,
 				885A87AD2DA9707F00717DB5 /* DataModels */,
 				885A87A92DA7DEBB00717DB5 /* MediaServices */,
@@ -135,6 +139,7 @@
 			packageProductDependencies = (
 				885A87AB2DA7FC0400717DB5 /* MediaServices */,
 				885A87AF2DAFFA8500717DB5 /* StorageServices */,
+				8858FBF62DBFAA3400505ECC /* PlaybackServices */,
 			);
 			productName = RosettaFinSampleApp;
 			productReference = EF2CDD5D2DA485CD00859F2F /* RosettaFinSampleApp.app */;
@@ -620,6 +625,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8858FBF62DBFAA3400505ECC /* PlaybackServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PlaybackServices;
+		};
 		885A87AB2DA7FC0400717DB5 /* MediaServices */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MediaServices;

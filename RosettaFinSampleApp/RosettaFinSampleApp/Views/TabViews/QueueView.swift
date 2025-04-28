@@ -21,7 +21,13 @@ struct QueueView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(enqueuedSongs) { song in
-                    SongListItem(name: song.name, artist: song.artist)
+                    // SongListItem(name: song.name, artist: song.artist)
+                    
+                    SongListItem(
+                        name: song.name,
+                        artist: song.artist) {
+                            viewModel.startPlaying(song)
+                    }
                 }
             }
             .background(.ultraThinMaterial)

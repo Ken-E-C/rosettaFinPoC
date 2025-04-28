@@ -29,19 +29,8 @@ class SearchViewModel: ObservableObject {
     init(mediaServices: MediaServices? = nil, storageServices: StorageServices? = nil) {
         self.mediaServices = mediaServices ?? MediaServices.shared
         self.storageServices = storageServices ?? StorageServices.shared
-        setupMockSongs()
         loadSelectedSongs()
         setupSearchListener(using: $searchText)
-    }
-    
-    private func setupMockSongs() {
-        let mockSongs = [
-            MusicInfo(name: "Bohemian Rhapsody", artist: "Queen"),
-            MusicInfo(name: "Imagine", artist: "John Lennon"),
-            MusicInfo(name: "Never Gonna Give You Up", artist: "Rick Astley"),
-            MusicInfo(name: "Hey Jude", artist: "The Beatles"),
-        ]
-        updateSearchResults(with: mockSongs)
     }
     
     private func loadSelectedSongs() {

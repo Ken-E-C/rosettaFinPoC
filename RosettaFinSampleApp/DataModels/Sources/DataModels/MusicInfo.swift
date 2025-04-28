@@ -12,10 +12,12 @@ public struct MusicInfo: Identifiable, Sendable, Equatable, Codable {
     
     public let name: String
     public let artist: String
+    public let songId: String
     
-    public init(name: String, artist: String) {
+    public init(name: String, artist: String, songId: String) {
         self.name = name
         self.artist = artist
+        self.songId = songId
     }
     
     public static func == (lhs: MusicInfo, rhs: MusicInfo) -> Bool {

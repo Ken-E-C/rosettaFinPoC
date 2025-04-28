@@ -44,13 +44,10 @@ struct SearchView: View {
                     SongListItem(
                         name: info.musicInfo.name,
                         artist: info.musicInfo.artist) {
-                            Button {
-                                viewModel.didSelect(info)
-                            } label: {
-                                info.isSelected ? Image(systemName: "circle.fill") : Image(systemName: "circle")
-                            }
-
-                        }
+                        info.isSelected ? Image(systemName: "circle.fill") : Image(systemName: "circle")
+                    } tapAction: {
+                        viewModel.didSelect(info)
+                    }
                 }
             }
             .background(.ultraThinMaterial)

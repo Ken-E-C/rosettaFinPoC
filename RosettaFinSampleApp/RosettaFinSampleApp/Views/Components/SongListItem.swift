@@ -11,33 +11,43 @@ struct SongListItem<Content: View>: View {
     let name: String
     let artist: String
     let content: () -> Content
+    let tapAction: (() -> Void)?
     
     init(
         name: String,
         artist: String,
-        content: @escaping () -> Content) {
+        content: @escaping () -> Content,
+        tapAction: (() -> Void)? = nil)
+    {
         self.name = name
         self.artist = artist
         self.content = content
+        self.tapAction = tapAction
     }
     
-    init(name: String, artist: String) where Content == EmptyView {
+    init(name: String, artist: String, tapAction: (() -> Void)? = nil) where Content == EmptyView {
         self.name = name
         self.artist = artist
         self.content = { EmptyView() }
+        self.tapAction = tapAction
     }
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(name)
-                    .font(.headline)
-                Text(artist)
-                    .font(.subheadline)
+        Button {
+            tapAction?()
+        } label: {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(name)
+                        .font(.headline)
+                    Text(artist)
+                        .font(.subheadline)
+                }
+                Spacer()
+                content()
             }
-            Spacer()
-            content()
+            .padding()
         }
-        .padding()
+        .disabled(tapAction == nil)
     }
 }

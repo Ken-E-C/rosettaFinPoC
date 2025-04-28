@@ -21,6 +21,9 @@ public protocol JellyfinServiceManagerProtocol {
     var accessToken: String? { set get }
     var accessTokenPublisher: Published<String?>.Publisher { get }
     
+    var serverUrl: String? { set get }
+    var serverUrlPublisher: Published<String?>.Publisher { get }
+    
     var currentUser: UserDto? { set get }
     var currentUserPublisher: Published<UserDto?>.Publisher { get }
     
@@ -32,6 +35,11 @@ public protocol JellyfinServiceManagerProtocol {
     )
     
     func attemptLogout(callback: @escaping (Bool) -> Void)
+    func search(for type: MediaServices.MediaType,
+                       using keyword: String,
+                       userId: String) async throws -> [MusicInfo]
+    
+    func getStreamingUrl(for itemId: String) -> URL?
 }
 
 @MainActor
@@ -61,6 +69,11 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
         $currentUser
     }
     
+    @Published public var serverUrl: String? = nil
+    public var serverUrlPublisher: Published<String?>.Publisher {
+        $serverUrl
+    }
+    
     init(isLoggedIn: Bool = false) {
         self.isLoggedIn = isLoggedIn
     }
@@ -81,6 +94,7 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
             version: "0.0.1")
         jellyfinClient = JellyfinClient(configuration: config, accessToken: token)
         accessToken = jellyfinClient?.accessToken
+        serverUrl = urlString
         isLoggedIn = accessToken != nil
     }
     
@@ -119,6 +133,7 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
                         self.accessToken = token
                         self.isLoggedIn = true
                         self.currentUser = user
+                        self.serverUrl = serverUrlString
                         callback(self.accessToken, self.currentUser, nil)
                     }
                 }
@@ -196,10 +211,30 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
         }
         var musicInfoItems = [MusicInfo]()
         for dataItem in jellyfinData {
-            let newMusicInfo = MusicInfo(name: dataItem.name ?? "No Name", artist: dataItem.albumArtist ?? "No Artist")
-            musicInfoItems.append(newMusicInfo)
+            if let songId = dataItem.id {
+                let newMusicInfo = MusicInfo(
+                    name: dataItem.name ?? "No Name",
+                    artist: dataItem.albumArtist ?? "No Artist",
+                    songId: songId)
+                musicInfoItems.append(newMusicInfo)
+            }
         }
         return musicInfoItems
+    }
+    
+    public func getStreamingUrl(for itemId: String) -> URL? {
+        guard let accessToken, let serverUrl else {
+            print("Error: Missing server or accessToken for getting streaming url.")
+            return nil
+        }
+        var components = URLComponents(string: "\(serverUrl)/Audio/\(itemId)/universal")!
+            components.queryItems = [
+                URLQueryItem(name: "Container", value: "mp3"), // Or "mp3"
+                URLQueryItem(name: "AudioCodec", value: "mp3"),
+                URLQueryItem(name: "MaxBitrate", value: "320000"),
+                URLQueryItem(name: "api_key", value: accessToken)
+            ]
+        return components.url
     }
 }
 

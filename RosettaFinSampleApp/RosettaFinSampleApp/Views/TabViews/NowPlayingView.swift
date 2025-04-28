@@ -17,7 +17,8 @@ struct NowPlayingView: View {
     @State var currentTitle = "Song Title"
     @State var currentArtist = "Artist Name"
     
-    init(viewModel: NowPlayingViewModel = NowPlayingViewModel()) {
+    init(givenViewModel: NowPlayingViewModel? = nil) {
+        let viewModel = givenViewModel ?? NowPlayingViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -36,7 +37,7 @@ struct NowPlayingView: View {
     }
     
     var songInfo: some View {
-        VStack {
+        VStack(alignment: .center) {
             Text(currentTitle)
                 .font(.headline)
             Text(currentArtist)
