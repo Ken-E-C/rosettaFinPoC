@@ -18,6 +18,9 @@ struct NowPlayingView: View {
     @State var currentArtist = "Artist Name"
     @State var currentSongImageUrl: URL?
     
+    @State var currentTime: TimeInterval = 0.0
+    @State var currentDuration: TimeInterval = 0.0
+    
     init(givenViewModel: NowPlayingViewModel? = nil) {
         let viewModel = givenViewModel ?? NowPlayingViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -27,6 +30,7 @@ struct NowPlayingView: View {
         VStack(alignment: .center) {
             imageSection
             songInfo
+            scrubberSlider
             playbackControls
         }
         .padding()
@@ -38,6 +42,12 @@ struct NowPlayingView: View {
         }
         .onReceive(viewModel.$currentSongImageUrl) { newImageUrl in
             currentSongImageUrl = newImageUrl
+        }
+        .onReceive(viewModel.$currentTime) { newCurrentTime in
+            currentTime = newCurrentTime
+        }
+        .onReceive(viewModel.$currentDuration) { newCurrentDuration in
+            currentDuration = newCurrentDuration
         }
     }
     
@@ -68,6 +78,14 @@ struct NowPlayingView: View {
                 .font(.headline)
             Text(currentArtist)
                 .font(.caption)
+        }
+    }
+    
+    var scrubberSlider: some View {
+        VStack {
+            Slider(value: $currentTime, in: 0...currentDuration) { isChanging in
+                // Left Blank for now
+            }
         }
     }
     

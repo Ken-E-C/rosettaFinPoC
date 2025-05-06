@@ -27,28 +27,45 @@ final class NowPlayingViewModel: ObservableObject {
     
     let playbackManager: PlaybackManager
     let mediaServices: MediaServices
-    var playbackCancellable: AnyCancellable?
+    var playbackCancellables = Set<AnyCancellable>()
     
     @Published var currentState: PlaybackState = .stop
     @Published var currentSongTitle: String = "Nil"
     @Published var currentArtistName: String = "Nil"
     @Published var currentSongImageUrl: URL?
     
+    @Published var currentTime: TimeInterval = 0.0
+    @Published var currentDuration: TimeInterval = 0.0
+    
     init(playbackManager: PlaybackManager? = nil,
          mediaServices: MediaServices? = nil) {
         self.playbackManager = playbackManager ?? PlaybackManager.shared
         self.mediaServices = mediaServices ?? MediaServices.shared
         setupMediaDataListeners(for: self.playbackManager)
+        setupScrubberBindings(for: self.playbackManager)
     }
     
     func setupMediaDataListeners(for manager: PlaybackManager?) {
         guard let manager else { return }
-        playbackCancellable = manager.$currentMedia.receive(on: DispatchQueue.main).sink { [weak self] nowPlayingMedia in
+        manager.$currentMedia.receive(on: DispatchQueue.main).sink { [weak self] nowPlayingMedia in
             guard let self else { return }
             self.currentSongTitle = nowPlayingMedia?.name ?? "No Song Title"
             self.currentArtistName = nowPlayingMedia?.artist ?? "No Artist Name"
             self.loadArtwork(for: nowPlayingMedia)
-        }
+        }.store(in: &playbackCancellables)
+    }
+    
+    func setupScrubberBindings(for manager: PlaybackManager?) {
+        guard let manager else { return }
+        manager.$currentTime.receive(on: DispatchQueue.main).sink { [weak self] newTime in
+            guard let self else { return }
+            self.currentTime = newTime
+        }.store(in: &playbackCancellables)
+        
+        manager.$duration.receive(on: DispatchQueue.main).sink { [weak self] newDuration in
+            guard let self else { return }
+            self.currentDuration = newDuration
+        }.store(in: &playbackCancellables)
     }
     
     func didTap(_ button: ButtonType) {
