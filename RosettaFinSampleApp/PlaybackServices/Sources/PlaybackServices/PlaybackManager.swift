@@ -46,6 +46,11 @@ public final class PlaybackManager: ObservableObject {
         currentMedia = nil
     }
     
+    public func seek(to timeDouble: Double) {
+        let newTime = CMTime(seconds: timeDouble, preferredTimescale: 600)
+        player.seek(to: newTime)
+    }
+    
     private func setupStatusCancellable(for player: AVPlayer) {
         playerStatusCancellable = player.publisher(for: \.timeControlStatus)
             .removeDuplicates()
@@ -69,15 +74,15 @@ public final class PlaybackManager: ObservableObject {
     
     private func addTimeObserver() {
         let interval = CMTime(seconds: 0.25, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        
         timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { [weak self] time in
             guard let self else { return }
             
             // This is a hack to make AVPlayer and Swift 6 play nice together.
             Task { @MainActor in
-                self.currentTime = time.seconds
-                self.duration = self.player.currentItem?.duration.seconds ?? 0.0
-                
+                if let duration = self.player.currentItem?.duration.seconds, duration.isFinite {
+                    self.currentTime = time.seconds
+                    self.duration = duration
+                }
             }
         })
     }

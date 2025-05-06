@@ -39,7 +39,7 @@ public protocol JellyfinServiceManagerProtocol {
                        using keyword: String,
                        userId: String) async throws -> [MusicInfo]
     
-    func getStreamingUrl(for itemId: String) -> URL?
+    func getStreamingUrl(for item: MusicInfo) -> URL?
 }
 
 @MainActor
@@ -212,27 +212,34 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
         var musicInfoItems = [MusicInfo]()
         for dataItem in jellyfinData {
             if let songId = dataItem.id {
+                let codec = dataItem.mediaSources?.first?.mediaStreams?.first(where: { $0.type == .audio })?.codec
+                let container = dataItem.mediaSources?.first?.container
                 let newMusicInfo = MusicInfo(
                     name: dataItem.name ?? "No Name",
                     artist: dataItem.albumArtist ?? "No Artist",
                     songId: songId,
-                    imageTags: dataItem.imageTags ?? [:])
+                    imageTags: dataItem.imageTags ?? [:],
+                    codec: codec,
+                    container: container)
                 musicInfoItems.append(newMusicInfo)
             }
         }
         return musicInfoItems
     }
     
-    public func getStreamingUrl(for itemId: String) -> URL? {
+    public func getStreamingUrl(for item: MusicInfo) -> URL? {
         guard let accessToken, let serverUrl else {
             print("Error: Missing server or accessToken for getting streaming url.")
             return nil
         }
-        var components = URLComponents(string: "\(serverUrl)/Audio/\(itemId)/universal")
+        let codec = item.codec ?? "mp3"
+        let container = item.container ?? "mp3"
+        var components = URLComponents(string: "\(serverUrl)/Audio/\(item.songId)/universal")
             components?.queryItems = [
-                URLQueryItem(name: "Container", value: "mp3"), // Or "mp3"
-                URLQueryItem(name: "AudioCodec", value: "mp3"),
-                URLQueryItem(name: "MaxBitrate", value: "320000"),
+                URLQueryItem(name: "Container", value: container),
+                URLQueryItem(name: "AudioCodec", value: codec),
+                URLQueryItem(name: "DirectStream", value: "false"),
+//                URLQueryItem(name: "MaxBitrate", value: "320000"),
                 URLQueryItem(name: "api_key", value: accessToken)
             ]
         return components?.url

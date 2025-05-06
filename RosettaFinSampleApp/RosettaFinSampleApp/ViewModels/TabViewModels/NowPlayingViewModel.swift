@@ -68,6 +68,10 @@ final class NowPlayingViewModel: ObservableObject {
         }.store(in: &playbackCancellables)
     }
     
+    func seek(to newTime: TimeInterval) {
+        playbackManager.seek(to: newTime)
+    }
+    
     func didTap(_ button: ButtonType) {
         switch button {
         case .back:

@@ -62,7 +62,7 @@ struct NowPlayingView: View {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-            case .failure(let error):
+            case .failure:
                 Image(systemName: "photo")
             @unknown default:
                 EmptyView()
@@ -84,7 +84,7 @@ struct NowPlayingView: View {
     var scrubberSlider: some View {
         VStack {
             Slider(value: $currentTime, in: 0...currentDuration) { isChanging in
-                // Left Blank for now
+                viewModel.seek(to: currentTime)
             }
         }
     }
