@@ -15,6 +15,8 @@ public final class PlaybackManager: ObservableObject {
     @Published public var isPlaying: Bool = false
     @Published public var currentMedia: MusicInfo?
     
+    
+    
     @Published public private(set) var duration: TimeInterval = 0.0
     @Published public private(set) var currentTime: TimeInterval = 0.0
     
@@ -24,9 +26,13 @@ public final class PlaybackManager: ObservableObject {
         setupStatusCancellable(for: player)
     }
     
-    public func startPlaying(song: MusicInfo, from url: URL) {
+    public func startPlaying(song: MusicInfo) {
+        guard let streamingUrl = song.streamingUrl else {
+            print("Error: can't generate streamingUrl for song \(song.name)")
+            return
+        }
         currentMedia = song
-        let item = AVPlayerItem(url: url)
+        let item = AVPlayerItem(url: streamingUrl)
         removeTimeObserver()
         player.replaceCurrentItem(with: item)
         addTimeObserver()

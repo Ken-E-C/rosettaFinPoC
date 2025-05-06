@@ -93,7 +93,7 @@ final class NowPlayingViewModel: ObservableObject {
             print("Warning: No media found while loading artwork.")
             return
         }
-        let artworkUrl = mediaServices.jellyfinManager.getArtworkUrl(for: media)
-        self.currentSongImageUrl = artworkUrl
+
+        self.currentSongImageUrl = media.artworkUrl
     }
 }

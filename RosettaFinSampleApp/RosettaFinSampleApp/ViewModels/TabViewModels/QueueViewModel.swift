@@ -38,11 +38,7 @@ class QueueViewModel: ObservableObject {
     }
     
     func startPlaying(_ song: MusicInfo) {
-        guard let streamingUrl = mediaServices.jellyfinManager.getStreamingUrl(for: song) else {
-            print("Error: can't generate streamingUrl for song \(song.name)")
-            return
-        }
-        playbackServices.startPlaying(song: song, from: streamingUrl)
+        playbackServices.startPlaying(song: song)
     }
     
 }

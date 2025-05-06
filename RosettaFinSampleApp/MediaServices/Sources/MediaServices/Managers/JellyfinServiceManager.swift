@@ -39,7 +39,7 @@ public protocol JellyfinServiceManagerProtocol {
                        using keyword: String,
                        userId: String) async throws -> [MusicInfo]
     
-    func getStreamingUrl(for item: MusicInfo) -> URL?
+    func getStreamingUrl(for itemId: String, codec: String?, container: String?) -> URL?
 }
 
 @MainActor
@@ -214,27 +214,31 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
             if let songId = dataItem.id {
                 let codec = dataItem.mediaSources?.first?.mediaStreams?.first(where: { $0.type == .audio })?.codec
                 let container = dataItem.mediaSources?.first?.container
+                let streamingUrl = getStreamingUrl(for: songId, codec: codec, container: container)
+                let artworkUrl = getArtworkUrl(for: dataItem.imageTags ?? [:], itemId: songId)
                 let newMusicInfo = MusicInfo(
                     name: dataItem.name ?? "No Name",
                     artist: dataItem.albumArtist ?? "No Artist",
                     songId: songId,
                     imageTags: dataItem.imageTags ?? [:],
                     codec: codec,
-                    container: container)
+                    container: container,
+                    streamingUrl: streamingUrl,
+                    artworkUrl: artworkUrl)
                 musicInfoItems.append(newMusicInfo)
             }
         }
         return musicInfoItems
     }
     
-    public func getStreamingUrl(for item: MusicInfo) -> URL? {
+    public func getStreamingUrl(for itemId: String, codec: String?, container: String?) -> URL? {
         guard let accessToken, let serverUrl else {
             print("Error: Missing server or accessToken for getting streaming url.")
             return nil
         }
-        let codec = item.codec ?? "mp3"
-        let container = item.container ?? "mp3"
-        var components = URLComponents(string: "\(serverUrl)/Audio/\(item.songId)/universal")
+        let codec = codec ?? "mp3"
+        let container = container ?? "mp3"
+        var components = URLComponents(string: "\(serverUrl)/Audio/\(itemId)/universal")
             components?.queryItems = [
                 URLQueryItem(name: "Container", value: container),
                 URLQueryItem(name: "AudioCodec", value: codec),
@@ -244,17 +248,17 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
         return components?.url
     }
     
-    public func getArtworkUrl(for item: MusicInfo) -> URL? {
+    public func getArtworkUrl(for imageTags: [String: String], itemId: String) -> URL? {
         guard let accessToken, let serverUrl else {
             print("Error: Missing server or accessToken for getting artwork url.")
             return nil
         }
-        guard let tag = item.imageTags["Primary"] else {
+        guard let tag = imageTags["Primary"] else {
             print("Warning: No Primary Image Tags were found.")
             return nil
         }
         
-        var components = URLComponents(string: "\(serverUrl)/Items/\(item.songId)/Images/Primary")
+        var components = URLComponents(string: "\(serverUrl)/Items/\(itemId)/Images/Primary")
         components?.queryItems = [
             URLQueryItem(name: "tag", value: tag),
             URLQueryItem(name: "api_key", value: accessToken)
