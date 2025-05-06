@@ -239,7 +239,6 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
                 URLQueryItem(name: "Container", value: container),
                 URLQueryItem(name: "AudioCodec", value: codec),
                 URLQueryItem(name: "DirectStream", value: "false"),
-//                URLQueryItem(name: "MaxBitrate", value: "320000"),
                 URLQueryItem(name: "api_key", value: accessToken)
             ]
         return components?.url

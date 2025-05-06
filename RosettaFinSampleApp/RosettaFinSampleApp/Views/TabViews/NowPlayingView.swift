@@ -20,6 +20,7 @@ struct NowPlayingView: View {
     
     @State var currentTime: TimeInterval = 0.0
     @State var currentDuration: TimeInterval = 0.0
+    @State var durationTextWidth: CGFloat = 0
     
     init(givenViewModel: NowPlayingViewModel? = nil) {
         let viewModel = givenViewModel ?? NowPlayingViewModel()
@@ -82,9 +83,27 @@ struct NowPlayingView: View {
     }
     
     var scrubberSlider: some View {
-        VStack {
+        HStack {
+            Text(currentTime.asString)
+                .frame(width: durationTextWidth)
             Slider(value: $currentTime, in: 0...currentDuration) { isChanging in
-                viewModel.seek(to: currentTime)
+                if !isChanging {
+                    viewModel.seek(to: currentTime)
+                }
+            }
+            Text(currentDuration.asString)
+                .padding(.horizontal, 5)
+                .background {
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            durationTextWidth = geometry.size.width
+                        }
+                        .onChange(of: geometry.size.width) { _, newValue in
+                            durationTextWidth = newValue
+                        }
+                }
+                .frame(height: 50)
             }
         }
     }
@@ -123,5 +142,14 @@ struct NowPlayingView: View {
             .buttonStyle(PlainButtonStyle())
             Spacer()
         }
+    }
+}
+
+fileprivate extension TimeInterval {
+    var asString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.zeroFormattingBehavior = .dropLeading // drop leading zero values
+        return formatter.string(from: self) ?? "hh:mm:ss"
     }
 }
