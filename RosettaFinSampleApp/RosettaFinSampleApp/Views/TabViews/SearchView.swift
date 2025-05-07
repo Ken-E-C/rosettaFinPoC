@@ -38,8 +38,8 @@ struct SearchView: View {
     }
     
     var listLayer: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 8) {
+        VStack {
+            List {
                 ForEach(enqueuedSongs, id: \.musicInfo.id) { info in
                     SongListItem(
                         name: info.musicInfo.name,
@@ -53,7 +53,6 @@ struct SearchView: View {
             .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .shadow(radius: 5)
-            .padding()
         }
     }
 }

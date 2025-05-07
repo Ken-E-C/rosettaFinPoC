@@ -28,13 +28,11 @@ struct NowPlayingView: View {
     }
     
     var body: some View {
-        VStack(alignment: .center) {
-            imageSection
-            songInfo
-            scrubberSlider
-            playbackControls
+        
+        ZStack {
+            mediaInfoLayer
+            controlsLayer
         }
-        .padding()
         .onReceive(viewModel.$currentSongTitle) { newTitle in
             currentTitle = newTitle
         }
@@ -49,6 +47,28 @@ struct NowPlayingView: View {
         }
         .onReceive(viewModel.$currentDuration) { newCurrentDuration in
             currentDuration = newCurrentDuration
+        }
+    }
+    
+    var mediaInfoLayer: some View {
+        VStack(alignment: .center) {
+            imageSection
+            songInfo
+        }
+        .padding()
+    }
+    
+    var controlsLayer: some View {
+        VStack {
+            Spacer()
+            FloatingBar {
+                VStack {
+                    scrubberSlider
+                    playbackControls
+                }
+                .padding()
+            }
+            .padding(.bottom, 20.0)
         }
     }
     
@@ -69,7 +89,7 @@ struct NowPlayingView: View {
                 EmptyView()
             }
         }
-        .frame(width: 200, height: 200)
+        .frame(width: 250, height: 250)
         .clipShape(RoundedRectangle(cornerRadius: 10.0))
     }
     

@@ -46,7 +46,6 @@ struct SongListItem<Content: View>: View {
                 Spacer()
                 content()
             }
-            .padding()
         }
         .disabled(tapAction == nil)
     }

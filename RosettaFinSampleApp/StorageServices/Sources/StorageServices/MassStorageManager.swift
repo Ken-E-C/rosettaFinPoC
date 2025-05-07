@@ -145,7 +145,7 @@ public class MassStorageManager {
             return
         }
         
-        let newQueueData = QueueData(enqueuedSongs: [:])
+        let newQueueData = QueueData(enqueuedSongs: [])
         newQueueData.replaceQueue(with: newQueue)
         
         container.mainContext.insert(newQueueData)

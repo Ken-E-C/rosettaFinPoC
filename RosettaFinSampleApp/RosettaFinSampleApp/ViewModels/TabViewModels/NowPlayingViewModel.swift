@@ -75,6 +75,7 @@ final class NowPlayingViewModel: ObservableObject {
     func didTap(_ button: ButtonType) {
         switch button {
         case .back:
+            playbackManager.playPrevious()
             print("NowPlayingViewmodel: Did Tap back")
         case .playpause:
             print("NowPlayingViewmodel: Did Tap playpause")
@@ -84,6 +85,7 @@ final class NowPlayingViewModel: ObservableObject {
                 playbackManager.playExisting()
             }
         case .forward:
+            playbackManager.playNext()
             print("NowPlayingViewmodel: Did Tap forward")
         }
     }

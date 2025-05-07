@@ -18,28 +18,50 @@ struct QueueView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 8) {
-                ForEach(enqueuedSongs) { song in
-                    // SongListItem(name: song.name, artist: song.artist)
-                    
-                    SongListItem(
-                        name: song.name,
-                        artist: song.artist) {
-                            viewModel.startPlaying(song)
-                    }
-                }
-            }
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            .shadow(radius: 5)
-            .padding()
+        ZStack {
+            listLayer
+            controlsLayer
         }
         .onReceive(viewModel.$enqueuedSongs) { newSongs in
             enqueuedSongs = newSongs
         }
         .onAppear {
             viewModel.loadSelectedSongs()
+        }
+    }
+    
+    var listLayer: some View {
+        List {
+            ForEach(Array(enqueuedSongs.enumerated()), id: \.element.id) { index, song in
+                SongListItem(
+                    name: song.name,
+                    artist: song.artist) {
+                        viewModel.startPlaying(songAt: index)
+                }
+            }
+        }
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .shadow(radius: 5)
+    }
+    
+    var controlsLayer: some View {
+        VStack {
+            Spacer()
+            FloatingBar {
+                HStack {
+                    Button {
+                        viewModel.playQueue()
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Play Queue")
+                            Spacer()
+                        }
+                    }
+                }
+            }
+            .padding(.bottom, 20.0)
         }
     }
 }

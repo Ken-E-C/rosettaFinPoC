@@ -38,7 +38,7 @@ class SearchViewModel: ObservableObject {
             print("Warning: No songs found in persistent storage")
             return
         }
-        selectedSongs = Array(queuedSongsDict.values)
+        selectedSongs = queuedSongsDict
     }
     
     private func setupSearchListener(using publisher: Published<String>.Publisher) {

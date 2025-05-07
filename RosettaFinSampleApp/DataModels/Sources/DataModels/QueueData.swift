@@ -10,20 +10,15 @@ import SwiftData
 
 @Model
 public class QueueData {
-    public var enqueuedSongs: [MusicInfo.ID: MusicInfo]
+    public var enqueuedSongs: [MusicInfo]
     
-    public init(enqueuedSongs: [MusicInfo.ID : MusicInfo]) {
+    public init(enqueuedSongs: [MusicInfo]) {
         self.enqueuedSongs = enqueuedSongs
     }
     
     @discardableResult
     public func replaceQueue(with newQueue: [MusicInfo]) -> Bool {
-        var updatedQueue = [MusicInfo.ID: MusicInfo]()
-        
-        for item in newQueue {
-            updatedQueue[item.id] = item
-        }
-        enqueuedSongs = updatedQueue
+        enqueuedSongs = newQueue
         return true
     }
 }

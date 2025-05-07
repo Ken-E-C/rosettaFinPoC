@@ -30,15 +30,20 @@ class QueueViewModel: ObservableObject {
     }
     
     func loadSelectedSongs() {
-        guard let queuedSongsDict = storageServices.massStorageManager.loadQueue()?.enqueuedSongs else {
+        guard let queuedSongs = storageServices.massStorageManager.loadQueue()?.enqueuedSongs else {
             print("Warning: No songs found in persistent storage")
             return
         }
-        enqueuedSongs = Array(queuedSongsDict.values)
+        enqueuedSongs = queuedSongs
+        playbackServices.loadQueue(using: queuedSongs)
     }
     
-    func startPlaying(_ song: MusicInfo) {
-        playbackServices.startPlaying(song: song)
+    func startPlaying(songAt index: Int) {
+        playbackServices.startPlaying(songAt: index)
+    }
+    
+    func playQueue() {
+        playbackServices.playNext()
     }
     
 }

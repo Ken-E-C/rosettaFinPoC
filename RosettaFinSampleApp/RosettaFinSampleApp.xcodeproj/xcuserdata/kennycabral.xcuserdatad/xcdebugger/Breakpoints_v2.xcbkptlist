@@ -7,112 +7,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7637F056-65B4-449C-BD86-FA469F0E7065"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/NowPlayingViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "loadArtwork(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E4B493C6-54B8-4196-95E7-6F75FD01C9E2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/NowPlayingViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "setupScrubberBindings(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E25AC9DC-80F7-4953-93F2-783D9C82F731"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/NowPlayingViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "setupScrubberBindings(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "88048C4F-F147-4101-9E73-D64267A5981E"
+            uuid = "C00199AF-A1E1-400B-B801-0D56A49379CE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PlaybackServices/Sources/PlaybackServices/PlaybackManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "addTimeObserver()"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "startPlaying(songAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "46304489-6A31-408F-A1E3-2D2709CC8E4D"
+            uuid = "769DDDBD-A1C1-451E-BBFE-FC940F34C553"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PlaybackServices/Sources/PlaybackServices/PlaybackManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "addTimeObserver()"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "playNext()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "739E8F6C-E2B1-4ACE-BABD-B17A6577F0AA"
+            uuid = "5B08C7C7-6DD5-4697-90D9-F863205004A6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MediaServices/Sources/MediaServices/Managers/JellyfinServiceManager.swift"
+            filePath = "PlaybackServices/Sources/PlaybackServices/PlaybackManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "getStreamingUrl(for:codec:container:)"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "loadAndPlayQueue(using:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A6994EF5-6773-4B1E-AAF7-1ECC0B8799DF"
+            uuid = "674EA072-5F60-4601-965D-818999AC3726"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MediaServices/Sources/MediaServices/Managers/JellyfinServiceManager.swift"
+            filePath = "RosettaFinSampleApp/ViewModels/TabViewModels/QueueViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "translateToMusicInfo(jellyfinData:)"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "playQueue()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
