@@ -14,7 +14,10 @@ public class MassStorageManager {
     
     public init(container: ModelContainer? = nil) {
         do {
-            self.container = try ModelContainer(for: JellyfinDataBlob.self, JellyfinCredentials.self, QueueData.self)
+            self.container = try ModelContainer(for: JellyfinDataBlob.self,
+                                                JellyfinCredentials.self,
+                                                QueueData.self,
+                                                JellyfinLibraryCatalog.self)
         } catch {
             print("Error: Unable to initialize SwiftData container in MassStorageManager")
         }

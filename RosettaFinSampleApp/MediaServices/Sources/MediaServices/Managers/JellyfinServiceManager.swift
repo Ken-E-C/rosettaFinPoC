@@ -204,6 +204,42 @@ public final class JellyfinServiceManager: JellyfinServiceManagerProtocol, Obser
         return translateToMusicInfo(jellyfinData: response.value.items)
     }
     
+    public func getLibraryCatalog(for type: MediaServices.MediaType,
+                                  userId: String) async throws -> [MusicInfo] {
+        guard let jellyfinClient else {
+            print("Error: Jellyfin Client not initialized")
+            return []
+        }
+        var pageIndex = 0
+        let pageLimit = 100
+        var catalogToReturn = [MusicInfo]()
+        
+        while true {
+            var parameters = Paths.GetItemsByUserIDParameters()
+            parameters.enableUserData = true
+            parameters.fields = ItemFields.MinimumFields
+            parameters.includeItemTypes = [.audio]
+            parameters.isRecursive = true
+            parameters.startIndex = pageIndex
+            parameters.limit = pageLimit
+            parameters.sortBy = [ItemSortBy.name.rawValue]
+            parameters.sortOrder = [JellyfinAPI.SortOrder.ascending]
+            
+            let request = Paths.getItemsByUserID(userID: userId, parameters: parameters)
+            let response = try await jellyfinClient.send(request)
+            if let items = response.value.items {
+                let newChunk = translateToMusicInfo(jellyfinData: items)
+                catalogToReturn += newChunk
+                if items.count < pageLimit { break }
+                pageIndex += pageLimit
+            } else {
+                print("Warning! No items were found in latest request.")
+                break
+            }
+        }
+        return catalogToReturn
+    }
+    
     private func translateToMusicInfo(jellyfinData: [BaseItemDto]?) -> [MusicInfo] {
         guard let jellyfinData else {
             print("Warning: no data retrieved from jellyfin search query")

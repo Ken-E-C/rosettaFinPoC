@@ -30,7 +30,7 @@ struct BuildQueueView: View {
                 HStack {
                     TextField("What kind of playlist do you want...", text: $promptText)
                     Button {
-                        // viewModel.createPlaylist(using: promptText)
+                        // viewModel.launchPlaylistCreationWorkflow(using: promptText)
                     } label: {
                         Image(systemName: "bubble.left.and.bubble.right")
                     }

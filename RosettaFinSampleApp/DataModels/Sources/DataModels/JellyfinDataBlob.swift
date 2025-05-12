@@ -14,7 +14,8 @@ public class JellyfinDataBlob {
     public var credentials: [JellyfinCredentials]
     public var lastAccessed: Date?
     
-    public init(serverUrl: String, credentials: [JellyfinCredentials]) {
+    public init(serverUrl: String,
+                credentials: [JellyfinCredentials]) {
         self.serverUrl = serverUrl
         self.credentials = credentials
     }
