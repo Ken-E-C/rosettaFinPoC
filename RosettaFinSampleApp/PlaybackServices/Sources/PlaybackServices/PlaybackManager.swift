@@ -86,7 +86,7 @@ public final class PlaybackManager: ObservableObject {
     }
     
     public func playPrevious() {
-        guard let queue else {
+        guard queue != nil else {
             print("Warning: no queue was loaded")
             return
         }

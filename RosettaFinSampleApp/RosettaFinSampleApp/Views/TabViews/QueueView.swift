@@ -12,6 +12,8 @@ struct QueueView: View {
     @StateObject var viewModel: QueueViewModel
     @State var enqueuedSongs = [MusicInfo]()
     
+    @State var shouldShowBuildQueueView: Bool = false
+    
     init(givenViewModel: QueueViewModel? = nil) {
         let viewModel = givenViewModel ?? QueueViewModel()
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -27,6 +29,9 @@ struct QueueView: View {
         }
         .onAppear {
             viewModel.loadSelectedSongs()
+        }
+        .sheet(isPresented: $shouldShowBuildQueueView) {
+            BuildQueueView()
         }
     }
     
@@ -50,15 +55,23 @@ struct QueueView: View {
             Spacer()
             FloatingBar {
                 HStack {
+                    Spacer()
                     Button {
                         viewModel.playQueue()
                     } label: {
                         HStack {
-                            Spacer()
                             Text("Play Queue")
-                            Spacer()
                         }
                     }
+                    Spacer()
+                    Button {
+                        shouldShowBuildQueueView.toggle()
+                    } label: {
+                        HStack {
+                            Text("Build Queue")
+                        }
+                    }
+                    Spacer()
                 }
             }
             .padding(.bottom, 20.0)
